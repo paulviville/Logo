@@ -10,7 +10,7 @@ document.body.appendChild( renderer.domElement );
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffffff);
 
-const camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.1, 30 );
+const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 30 );
 camera.position.z = 2;
 
 const orbit_controls = new OrbitControls(camera, renderer.domElement)
@@ -31,12 +31,15 @@ const material = new THREE.MeshLambertMaterial( { color: 0xFFFFFF, wireframe: fa
 
 const torusGeometry = new THREE.TorusGeometry( 0.075, 0.025, 64, 128 ); 
 const torus = new THREE.Mesh( torusGeometry, material );
+
+torus.scale.z *= 0.5
 scene.add( torus );
 
-const coneGeometry = new THREE.ConeGeometry(0.9, 4, 128, 4);
+const coneGeometry = new THREE.ConeGeometry(0.95, 4, 128, 4);
+coneGeometry.rotateZ(-0.00);
 coneGeometry.translate(0, 2, 0);
 coneGeometry.scale(0.036, 0.036, 0.036)
-coneGeometry.translate(0, 0.14, 0);
+coneGeometry.translate(0, 0.15, 0);
 
 
 const g = new THREE.Group()
@@ -70,13 +73,13 @@ const cone50 = new THREE.Mesh(coneGeometry, material);
 const cone51 = new THREE.Mesh(coneGeometry, material);
 
 
-
 cone00.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
 cone10.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
 cone20.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
 cone30.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
 cone40.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
 cone50.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
+
 
 g0.add(cone00, cone01);
 g1.add(cone10, cone11);
@@ -94,7 +97,7 @@ g4.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 4*Math.PI/6.))
 g5.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 5*Math.PI/6));
 
 
-const scaleFactor = 1.2
+const scaleFactor = 1.25
 let scale = scaleFactor;
 g1.scale.multiplyScalar(scale);
 scale *= scaleFactor;
@@ -105,6 +108,12 @@ scale *= scaleFactor;
 g4.scale.multiplyScalar(scale);
 scale *= scaleFactor;
 g5.scale.multiplyScalar(scale);
+g0.scale.z *= 0.5
+g1.scale.z *= 0.5
+g2.scale.z *= 0.5
+g3.scale.z *= 0.5
+g4.scale.z *= 0.5
+g5.scale.z *= 0.5
 
 
 window.addEventListener('resize', function() {
@@ -155,6 +164,12 @@ let frameCount = 0;
 function update (t)
 {
     g.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, 0.2* Math.PI / 100))
+    g0.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
+    g1.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
+    g2.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
+    g3.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
+    g4.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
+    g5.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
 }
 
 function render()
