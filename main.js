@@ -10,7 +10,7 @@ document.body.appendChild( renderer.domElement );
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffffff);
 
-const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 30 );
+const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.01, 30 );
 camera.position.z = 2;
 
 const orbit_controls = new OrbitControls(camera, renderer.domElement)
@@ -35,11 +35,15 @@ const torus = new THREE.Mesh( torusGeometry, material );
 torus.scale.z *= 0.5
 scene.add( torus );
 
-const coneGeometry = new THREE.ConeGeometry(0.95, 4, 128, 4);
+const coneGeometry = new THREE.ConeGeometry(0.9515, 4, 128, 4);
 coneGeometry.rotateZ(-0.00);
 coneGeometry.translate(0, 2, 0);
 coneGeometry.scale(0.036, 0.036, 0.036)
 coneGeometry.translate(0, 0.15, 0);
+
+const sphereGeometry = new THREE.SphereGeometry(0.95, 128, 128);
+sphereGeometry.scale(0.036, 0.01, 0.036)
+sphereGeometry.translate(0, 0.1495, 0);
 
 
 const g = new THREE.Group()
@@ -80,7 +84,6 @@ cone30.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
 cone40.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
 cone50.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
 
-
 g0.add(cone00, cone01);
 g1.add(cone10, cone11);
 g2.add(cone20, cone21);
@@ -88,13 +91,40 @@ g3.add(cone30, cone31);
 g4.add(cone40, cone41);
 g5.add(cone50, cone51);
 
+const sphere00 = new THREE.Mesh(sphereGeometry, material);
+const sphere01 = new THREE.Mesh(sphereGeometry, material);
+const sphere10 = new THREE.Mesh(sphereGeometry, material);
+const sphere11 = new THREE.Mesh(sphereGeometry, material);
+const sphere20 = new THREE.Mesh(sphereGeometry, material);
+const sphere21 = new THREE.Mesh(sphereGeometry, material);
+const sphere30 = new THREE.Mesh(sphereGeometry, material);
+const sphere31 = new THREE.Mesh(sphereGeometry, material);
+const sphere40 = new THREE.Mesh(sphereGeometry, material);
+const sphere41 = new THREE.Mesh(sphereGeometry, material);
+const sphere50 = new THREE.Mesh(sphereGeometry, material);
+const sphere51 = new THREE.Mesh(sphereGeometry, material);
 
-g0.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 0*Math.PI / 6));
-g1.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 1*Math.PI / 6));
-g2.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 2*Math.PI/6));
-g3.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 3*Math.PI/6.));
-g4.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 4*Math.PI/6.));
-g5.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 5*Math.PI/6));
+sphere00.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
+sphere10.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
+sphere20.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
+sphere30.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
+sphere40.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
+sphere50.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
+
+g0.add(sphere00, sphere01);
+g1.add(sphere10, sphere11);
+g2.add(sphere20, sphere21);
+g3.add(sphere30, sphere31);
+g4.add(sphere40, sphere41);
+g5.add(sphere50, sphere51);
+
+
+g0.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, -1*Math.PI / 6));
+g1.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 0*Math.PI / 6));
+g2.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 1*Math.PI/6));
+g3.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 2*Math.PI/6.));
+g4.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 3*Math.PI/6.));
+g5.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 4*Math.PI/6));
 
 
 const scaleFactor = 1.25
