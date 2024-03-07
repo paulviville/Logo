@@ -25,25 +25,28 @@ const axisY = new THREE.Vector3(0, 1, 0);
 const axisXY = new THREE.Vector3(1, 1, 0).normalize();
 const axisZ = new THREE.Vector3(0, 0, 1);
 
-
+const resolution = 16
+const coneHeight = Math.sqrt(2) /2 ;
+const coneWidth = Math.sqrt(2) / 2 ;
+// const coneHeight = 2;
 
 const material = new THREE.MeshLambertMaterial( { color: 0xFFFFFF, wireframe: false } ); 
 
-const torusGeometry = new THREE.TorusGeometry( 0.075, 0.025, 64, 128 ); 
+const torusGeometry = new THREE.TorusGeometry( 0.075, 0.025, resolution, resolution * 2 ); 
 const torus = new THREE.Mesh( torusGeometry, material );
 
 torus.scale.z *= 0.5
 scene.add( torus );
 
-const coneGeometry = new THREE.ConeGeometry(0.9515, 4, 128, 4);
+const coneGeometry = new THREE.ConeGeometry(coneWidth, coneHeight, resolution * 2, 4);
 coneGeometry.rotateZ(-0.00);
-coneGeometry.translate(0, 2, 0);
+coneGeometry.translate(0, coneHeight / 2 + Math.sqrt(2) / 2, 0);
 coneGeometry.scale(0.036, 0.036, 0.036)
-coneGeometry.translate(0, 0.15, 0);
+coneGeometry.translate(0, 0.17, 0); 
 
-const sphereGeometry = new THREE.SphereGeometry(0.95, 128, 128);
-sphereGeometry.scale(0.036, 0.01, 0.036)
-sphereGeometry.translate(0, 0.1495, 0);
+const sphereGeometry = new THREE.SphereGeometry(1, resolution * 2, resolution * 2);
+sphereGeometry.scale(0.036, 0.036, 0.036)
+sphereGeometry.translate(0, 0.17, 0);
 
 
 const g = new THREE.Group()
@@ -119,6 +122,9 @@ g4.add(sphere40, sphere41);
 g5.add(sphere50, sphere51);
 
 
+// cone00.scale.y *= 3
+// sphere00.scale.y *= 3
+
 g0.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, -1*Math.PI / 6));
 g1.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 0*Math.PI / 6));
 g2.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 1*Math.PI/6));
@@ -193,13 +199,13 @@ const defaultKeyUp = function(event){
 let frameCount = 0;
 function update (t)
 {
-    g.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, 0.2* Math.PI / 100))
-    g0.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
-    g1.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
-    g2.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
-    g3.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
-    g4.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
-    g5.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
+    // g.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, 0.2* Math.PI / 100))
+    // g0.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
+    // g1.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
+    // g2.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
+    // g3.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
+    // g4.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
+    // g5.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
 }
 
 function render()
