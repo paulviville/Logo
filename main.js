@@ -10,7 +10,7 @@ document.body.appendChild( renderer.domElement );
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffffff);
 
-const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.01, 30 );
+const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.01, 300 );
 camera.position.z = 2;
 
 const orbit_controls = new OrbitControls(camera, renderer.domElement)
@@ -25,131 +25,65 @@ const axisY = new THREE.Vector3(0, 1, 0);
 const axisXY = new THREE.Vector3(1, 1, 0).normalize();
 const axisZ = new THREE.Vector3(0, 0, 1);
 
-const resolution = 16
-const coneHeight = Math.sqrt(2) /2 ;
-const coneWidth = Math.sqrt(2) / 2 ;
-// const coneHeight = 2;
+const radius = 1;
+const alpha = Math.PI/10;
+const beta = Math.PI/2 - alpha; 
+const a = Math.sin(alpha) * radius;
+const b = Math.cos(alpha) * radius;
+const c = Math.tan(beta) * b;
+
+const coneHeight = c ;
+const coneWidth = b ;
+
+const resolution = 128;
 
 const material = new THREE.MeshLambertMaterial( { color: 0xFFFFFF, wireframe: false } ); 
 
 const torusGeometry = new THREE.TorusGeometry( 0.075, 0.025, resolution, resolution * 2 ); 
+const torusGeometry2 = new THREE.TorusGeometry( 0.75, 0.25, resolution, resolution * 2 ); 
 const torus = new THREE.Mesh( torusGeometry, material );
 
 torus.scale.z *= 0.5
 scene.add( torus );
 
 const coneGeometry = new THREE.ConeGeometry(coneWidth, coneHeight, resolution * 2, 4);
-coneGeometry.rotateZ(-0.00);
-coneGeometry.translate(0, coneHeight / 2 + Math.sqrt(2) / 2, 0);
+coneGeometry.translate(0, coneHeight / 2 + a, 0);
 coneGeometry.scale(0.036, 0.036, 0.036)
-coneGeometry.translate(0, 0.17, 0); 
+coneGeometry.translate(0, 0.145, 0); 
 
 const sphereGeometry = new THREE.SphereGeometry(1, resolution * 2, resolution * 2);
 sphereGeometry.scale(0.036, 0.036, 0.036)
-sphereGeometry.translate(0, 0.17, 0);
+sphereGeometry.translate(0, 0.145, 0);
 
 
-const g = new THREE.Group()
-const g0 = new THREE.Group()
-const g1 = new THREE.Group()
-const g2 = new THREE.Group()
-const g3 = new THREE.Group()
-const g4 = new THREE.Group()
-const g5 = new THREE.Group()
+const spiral = new THREE.Group();
+scene.add(spiral);
 
-scene.add(g)
-g.add(g0);
-g.add(g1);
-g.add(g2);
-g.add(g3);
-g.add(g4);
-g.add(g5);
-
-
-const cone00 = new THREE.Mesh(coneGeometry, material);
-const cone01 = new THREE.Mesh(coneGeometry, material);
-const cone10 = new THREE.Mesh(coneGeometry, material);
-const cone11 = new THREE.Mesh(coneGeometry, material);
-const cone20 = new THREE.Mesh(coneGeometry, material);
-const cone21 = new THREE.Mesh(coneGeometry, material);
-const cone30 = new THREE.Mesh(coneGeometry, material);
-const cone31 = new THREE.Mesh(coneGeometry, material);
-const cone40 = new THREE.Mesh(coneGeometry, material);
-const cone41 = new THREE.Mesh(coneGeometry, material);
-const cone50 = new THREE.Mesh(coneGeometry, material);
-const cone51 = new THREE.Mesh(coneGeometry, material);
-
-
-cone00.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
-cone10.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
-cone20.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
-cone30.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
-cone40.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
-cone50.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
-
-g0.add(cone00, cone01);
-g1.add(cone10, cone11);
-g2.add(cone20, cone21);
-g3.add(cone30, cone31);
-g4.add(cone40, cone41);
-g5.add(cone50, cone51);
-
-const sphere00 = new THREE.Mesh(sphereGeometry, material);
-const sphere01 = new THREE.Mesh(sphereGeometry, material);
-const sphere10 = new THREE.Mesh(sphereGeometry, material);
-const sphere11 = new THREE.Mesh(sphereGeometry, material);
-const sphere20 = new THREE.Mesh(sphereGeometry, material);
-const sphere21 = new THREE.Mesh(sphereGeometry, material);
-const sphere30 = new THREE.Mesh(sphereGeometry, material);
-const sphere31 = new THREE.Mesh(sphereGeometry, material);
-const sphere40 = new THREE.Mesh(sphereGeometry, material);
-const sphere41 = new THREE.Mesh(sphereGeometry, material);
-const sphere50 = new THREE.Mesh(sphereGeometry, material);
-const sphere51 = new THREE.Mesh(sphereGeometry, material);
-
-sphere00.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
-sphere10.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
-sphere20.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
-sphere30.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
-sphere40.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
-sphere50.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI));
-
-g0.add(sphere00, sphere01);
-g1.add(sphere10, sphere11);
-g2.add(sphere20, sphere21);
-g3.add(sphere30, sphere31);
-g4.add(sphere40, sphere41);
-g5.add(sphere50, sphere51);
-
-
-// cone00.scale.y *= 3
-// sphere00.scale.y *= 3
-
-g0.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, -1*Math.PI / 6));
-g1.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 0*Math.PI / 6));
-g2.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 1*Math.PI/6));
-g3.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 2*Math.PI/6.));
-g4.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 3*Math.PI/6.));
-g5.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 4*Math.PI/6));
-
-
+const nbSpokes = 6;
 const scaleFactor = 1.25
-let scale = scaleFactor;
-g1.scale.multiplyScalar(scale);
-scale *= scaleFactor;
-g2.scale.multiplyScalar(scale);
-scale *= scaleFactor;
-g3.scale.multiplyScalar(scale);
-scale *= scaleFactor;
-g4.scale.multiplyScalar(scale);
-scale *= scaleFactor;
-g5.scale.multiplyScalar(scale);
-g0.scale.z *= 0.5
-g1.scale.z *= 0.5
-g2.scale.z *= 0.5
-g3.scale.z *= 0.5
-g4.scale.z *= 0.5
-g5.scale.z *= 0.5
+const halfTurn = new THREE.Quaternion().setFromAxisAngle(axisZ, Math.PI);
+const quat = new THREE.Quaternion();
+
+for(let i = 0; i < nbSpokes; ++i) {
+	const spoke = new THREE.Group();
+	spiral.add(spoke);
+
+	const cone0 = new THREE.Mesh(coneGeometry, material);
+	const cone1 = new THREE.Mesh(coneGeometry, material);
+	const sphere0 = new THREE.Mesh(sphereGeometry, material);
+	const sphere1 = new THREE.Mesh(sphereGeometry, material);
+
+	cone0.applyQuaternion(halfTurn);
+	sphere0.applyQuaternion(halfTurn);
+
+	spoke.add(cone0, cone1, sphere0, sphere1);
+	quat.setFromAxisAngle(axisZ, (i-1)*Math.PI / 5.5);
+	spoke.applyQuaternion(quat);
+
+	spoke.scale.multiplyScalar(Math.pow(scaleFactor, i));
+	spoke.scale.z *= 0.5
+	spoke.scale.y *= 1.2
+}
 
 
 window.addEventListener('resize', function() {
@@ -160,7 +94,7 @@ window.addEventListener('resize', function() {
     camera.updateProjectionMatrix();
 });
 
-
+let play = true;
 
 const keyHeld = {};
 const defaultKeyDown = function(event){
@@ -173,6 +107,7 @@ const defaultKeyUp = function(event){
 		case "Escape": 
 			break;
 		case "Space":
+			play = !play;
 			break;
 		case "Delete":
 			break;
@@ -184,28 +119,36 @@ const defaultKeyUp = function(event){
 			break;
 		case "KeyF":
 			break
-		case "KeyL":
+		case "KeyW":
+			material.wireframe = !material.wireframe;
+			console.log(material.wireframe)
 			break;
 		case "Numpad0":
 			break;
 		case "ArrowRight":
+			coneGeometry.translate(0, 0.01, 0);
+
+			break;
+		case "ArrowLeft":
+			coneGeometry.translate(0, -0.01, 0);
+
 			break;
 	};
 
 	keyHeld[event.code] = false;
 }
 
+window.addEventListener("keydown", defaultKeyDown);
+window.addEventListener("keyup", defaultKeyUp);
+
 
 let frameCount = 0;
 function update (t)
 {
-    // g.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, 0.2* Math.PI / 100))
-    // g0.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
-    // g1.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
-    // g2.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
-    // g3.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
-    // g4.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
-    // g5.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, -0.3* Math.PI / 100))
+	if(play){
+	    spiral.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisXY, 0.2* Math.PI / 100))
+	    // spiral.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(axisZ, 0.1 * Math.PI / 100))
+	}
 }
 
 function render()
